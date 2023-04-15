@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,8 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Dialogs.Controls;
+using Newtonsoft.Json;
 using ReMarsModTool.GlobalData;
 using Path = System.IO.Path;
 using ReMarsModTool.DataStructures;
@@ -40,6 +39,8 @@ namespace ReMarsModTool
             MainOperations.IsEnabled = false;
         }
 
+        
+
         private void OnNewClicked(object sender, RoutedEventArgs e)
         {
             // TODO: Create new folder under user selected location.
@@ -49,7 +50,9 @@ namespace ReMarsModTool
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 // Set the selected folder as the working directory
-                Environment.CurrentDirectory = dialog.FileName;
+                GlobalItems.ProjectDir = dialog.FileName;
+
+                DirectoryInfo di = new DirectoryInfo(dialog.FileName);
 
                 // Initialize dictionaries to empty
                 GlobalItems.ProjectItems = new Dictionary<string, ItemInstance>();
@@ -60,10 +63,9 @@ namespace ReMarsModTool
                 GlobalItems.ProjectBuildingDisplayItems = new Dictionary<string, BuildingDisplayItem>();
                 GlobalItems.ProjectUnitItems = new Dictionary<string, UnitItem>();
                 GlobalItems.ProjectUnitDisplayItems = new Dictionary<string, UnitDisplayItem>();
-                _notified_items.Translations = new();
-                _notified_items.ModName = "";
-                _notified_items.PreviewPicture = "";
+                _notified_items = new();
                 MainOperations.IsEnabled = true;
+                _notified_items.ModName = di.Name;
             }
         }
 
@@ -74,7 +76,162 @@ namespace ReMarsModTool
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Save mod to known location
+            string title_json_content = "{\r\n    ";
+            List<string> title_items = new List<string>();
+            foreach (DataRow translation in _notified_items.Translations.Rows)
+            {
+                //title_json_content += $"\"{translation.Key}\":\"{translation.Value}\"";
+                title_items.Add($"\"{translation[0]}\":\"{translation[1]}\"");
+            }
+
+            title_json_content += string.Join(",\r\n    ", title_items);
+            title_json_content += "}";
+            using StreamWriter title_json_writer = new StreamWriter(new FileStream(GlobalItems.ProjectDir + @"\title.json", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite));
+            title_json_writer.WriteLine(title_json_content);
+            title_json_writer.Flush();
+            title_json_writer.Close();
+            if (!Directory.Exists(GlobalItems.ProjectDir + @"\package"))
+            {
+                Directory.CreateDirectory(GlobalItems.ProjectDir + @"\package");
+            }
+
+            if (!string.IsNullOrWhiteSpace(_notified_items.PreviewPicture))
+            {
+                if (File.Exists(_notified_items.PreviewPicture))
+                {
+                    File.Copy(_notified_items.PreviewPicture, GlobalItems.ProjectDir + @"\preview.png");
+                }
+            }
+            GlobalItems.ModRootPath = GlobalItems.ProjectDir + $@"\package\{_notified_items.ModID}";
+            using StreamWriter meta_strm_writer = new StreamWriter(new FileStream(GlobalItems.ProjectDir + @"\package\meta.json", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite));
+            ModMeta meta = new ModMeta();
+            if (meta.Packages == null)
+                meta.Packages = new List<string>();
+            meta.Packages.Add(_notified_items.ModID);
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Formatting = Formatting.Indented; 
+            serializer.Serialize(meta_strm_writer, meta);
+            meta_strm_writer.Flush();
+            meta_strm_writer.Close();
+            if (!Directory.Exists(GlobalItems.ModRootPath))
+            {
+                Directory.CreateDirectory(GlobalItems.ModRootPath);
+            }
+
+            MetaJsonObject mod_meta = new MetaJsonObject();
+            if (GlobalItems.ProjectBuildingItems != null)
+            {
+                if (GlobalItems.ProjectBuildingItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("BuildingDB_ReMars", "building");
+                }
+            }
+            if (GlobalItems.ProjectItems != null)
+            {
+                if (GlobalItems.ProjectItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("ItemDB_ReMars", "item");
+                }
+            }
+
+            if (GlobalItems.ProjectTerrainLayers != null)
+            {
+                if (GlobalItems.ProjectTerrainLayers.Count > 0)
+                {
+                    mod_meta.Contents.Add("TerrainLayerDB", "terrain");
+                }
+            }
+
+            if (GlobalItems.ProjectLandResItems != null)
+            {
+                if (GlobalItems.ProjectLandResItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("LandResourceDB", "landres/land_resources.json");
+                }
+            }
+
+            if (GlobalItems.ProjectResearchItems != null)
+            {
+                if (GlobalItems.ProjectResearchItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("ResearchDB", "research");
+                }
+            }
+
+            if (GlobalItems.ProjectBuildingDisplayItems != null)
+            {
+                if (GlobalItems.ProjectBuildingDisplayItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("BuildingDisplayDB_ReMars", "building_display");
+                }
+            }
+
+            if (GlobalItems.ProjectUnitItems != null)
+            {
+                if (GlobalItems.ProjectUnitItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("UnitDB_ReMars", "unit");
+                }
+            }
+
+            if (GlobalItems.ProjectUnitDisplayItems != null)
+            {
+                if (GlobalItems.ProjectUnitDisplayItems.Count > 0)
+                {
+                    mod_meta.Contents.Add("UnitDisplayDB_ReMars", "unit_display");
+                }
+            }
+
+            if (File.Exists(GlobalItems.ModRootPath + @"\config.lua"))
+            {
+                mod_meta.ConfigScript = GlobalItems.ModRootPath + @"\config.lua";
+                mod_meta.ConfigScript = mod_meta.ConfigScript.Replace("\\\\", "\\");
+            }
+
+            using StreamWriter mod_meta_writer = new StreamWriter(new FileStream(
+                GlobalItems.ModRootPath + @"\meta.json", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite));
+            serializer.Serialize(mod_meta_writer, mod_meta);
+            mod_meta_writer.Flush();
+            mod_meta_writer.Close();
+
+           WriteSerializedContent();
+
+        }
+
+        public static void WriteSerializedContent()
+        {
+            var mappings = new Dictionary<string, (object Data, string Path)>()
+            {
+                { "building", (GlobalItems.ProjectBuildingItems, "BuildingDB_ReMars")! },
+                { "item", (GlobalItems.ProjectItems, "ItemDB_ReMars")! },
+                { "terrain", (GlobalItems.ProjectTerrainLayers, "TerrainLayerDB")! },
+                { "landres", (GlobalItems.ProjectLandResItems, "landres/land_resources.json")! },
+                { "research", (GlobalItems.ProjectResearchItems, "ResearchDB")! },
+                { "building_display", (GlobalItems.ProjectBuildingDisplayItems, "BuildingDisplayDB_ReMars")! },
+                { "unit", (GlobalItems.ProjectUnitItems, "UnitDB_ReMars")! },
+                { "unit_display", (GlobalItems.ProjectUnitDisplayItems, "UnitDisplayDB_ReMars")! }
+            };
+
+            foreach (var mapping in mappings)
+            {
+                string serialized_data = JsonConvert.SerializeObject(mapping.Value.Data, Formatting.Indented);
+                string output_path = mapping.Value.Path;
+
+                // Check if the path has a file name
+                if (Path.HasExtension(output_path))
+                {
+                    string? directory_path = Path.GetDirectoryName(output_path);
+                    if (directory_path != null) Directory.CreateDirectory(directory_path);
+                }
+                else
+                {
+                    // If no file name is given, use the folder name as the file name
+                    output_path = Path.Combine(output_path, $"{mapping.Key}.json");
+                }
+
+                File.WriteAllText(output_path, serialized_data);
+
+            }
         }
 
         private void OnSaveAsClicked(object sender, RoutedEventArgs e)
@@ -126,6 +283,18 @@ namespace ReMarsModTool
             // TODO: Implement logic for when "Add Astroid" is clicked
         }
 
+        private void HighEffeiciencyBuildings()
+        {
+            if (GlobalItems.ProjectBuildingItems == null)
+                return;
+            foreach (var project_building_item in GlobalItems.ProjectBuildingItems)
+            {
+                project_building_item.Value.Employer.UpdateAllEfficiency(1, 100);
+            }
+        }
+
+        
+
         // Batch Clone Buildings to Mod
         private void BatchCloneBuildingsToMod_Click(object sender, EventArgs e)
         {
@@ -134,12 +303,14 @@ namespace ReMarsModTool
             {
                 return;
             }
+
+            GlobalItems.ProjectBuildingItems ??= new Dictionary<string, BuildingItem>();
+            GlobalItems.ProjectBuildingDisplayItems ??= new Dictionary<string, BuildingDisplayItem>();
             GlobalItems.ProjectBuildingItems.Clear();
             GlobalItems.ProjectBuildingDisplayItems.Clear();
             GlobalItems.ProjectBuildingItems = new Dictionary<string, BuildingItem>(GlobalItems.BaseBuildingItems);
             GlobalItems.ProjectBuildingDisplayItems =
                 new Dictionary<string, BuildingDisplayItem>(GlobalItems.BaseBuildingDisplayItems);
-
         }
 
         // Batch Modify Buildings
@@ -209,158 +380,9 @@ namespace ReMarsModTool
             DataGridTranslations.Items.Refresh();
         }
 
-    }
-
-    public class NotifiedItems : INotifyPropertyChanged, INotifyCollectionChanged
-    {
-        private string _previewPicture;
-        private string _modName;
-
-        public NotifiedItems()
+        private void OnHEBuildingClick(object Sender, RoutedEventArgs E)
         {
-            _previewPicture = "";
-            _modName = "";
-        }
-
-        public string PreviewPicture
-        {
-            get { return _previewPicture; }
-            set
-            {
-                _previewPicture = value;
-                OnPropertyChanged(nameof(PreviewPicture));
-            }
-        }
-
-        public string ModName
-        {
-            get => _modName;
-            set
-            {
-                _modName = value;
-                foreach (var possible_translation in GlobalItems.PossibleTranslations)
-                {
-                    if (_translations.ContainsKey(possible_translation))
-                    {
-                        _translations[possible_translation] = value;
-                    }
-                    else
-                    {
-                        _translations.Add(possible_translation, value);
-                    }
-                }
-                OnCollectionChanged(Translations);
-                OnPropertyChanged(nameof(ModName));
-            }
-        }
-        private Dictionary<string, string> _translations = new Dictionary<string, string>();
-
-        public Dictionary<string, string> Translations
-        {
-            get => _translations;
-            set {
-                _translations = value;
-                if (ModName != _translations["English"])
-                    _modName = _translations["English"];
-                OnCollectionChanged(Translations);
-            }
-        }
-
-        public bool HasPreviewPicture
-        {
-            get
-            {
-                return string.IsNullOrWhiteSpace(_previewPicture);
-            }
-        }
-        
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string PropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-        }
-
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-        protected virtual void OnCollectionChanged(object Object)
-        {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, Object ));
+            HighEffeiciencyBuildings();
         }
     }
-
-    public class TranslationItem : INotifyPropertyChanged
-    {
-        private string _languageCode;
-        private string _itemValue;
-        
-        public string LanguageCode
-        {
-            get => _languageCode;
-            set
-            { _languageCode = value;
-            OnPropertyChanged(nameof(LanguageCode));
-            }
-        }
-
-        public string ItemValue
-        {
-            get => _itemValue;
-            set
-            {
-                _itemValue = value;
-                OnPropertyChanged(nameof(ItemValue));
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public bool Equals(string str)
-        {
-            return str == _languageCode;
-        }
-
-        public override string ToString()
-        {
-            return $"\"{_languageCode}\":\"{_itemValue}\"";
-        }
-    }
-
-    class TranslationItemComparer : IEqualityComparer<TranslationItem>
-    {
-        public bool Equals(string? x, TranslationItem? y)
-        {
-            if (x == null && y == null) return true;
-            if (x == null || y == null) return false;
-            if (x == y.LanguageCode) return true;
-            return false;
-        }
-
-        public bool Equals(TranslationItem? x, string? y)
-        {
-            if (x == null && y == null) return true;
-            if (x == null || y == null) return false;
-            if (x.LanguageCode == y) return true;
-            return false;
-        }
-        public bool Equals(TranslationItem? x, TranslationItem? y)
-        {
-            if (x == null && y == null) return true;
-            if (x == null || y == null) return false;
-            if (x.LanguageCode == y.LanguageCode) return true;
-            return false;
-        }
-
-        public int GetHashCode([DisallowNull] TranslationItem obj)
-        {
-            return base.GetHashCode();
-        }
-    }
-
 }

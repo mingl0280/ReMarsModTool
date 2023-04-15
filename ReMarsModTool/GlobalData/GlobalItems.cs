@@ -15,8 +15,10 @@ namespace ReMarsModTool.GlobalData
     {
         public static string ReMarsBaseLocStr = "";
         public static string CurrentModProjDir = "";
-        public static ReMarsBaseMeta ReMarsMetadata;
-
+        public static MetaJsonObject ReMarsMetadata;
+        public static string ProjectDir { get; set; }
+        public static List<string> PossibleTranslations { get; set; }
+        public static string ModRootPath { get; set; }
         public static string ReMarsRootPath
         {
             get => _reMarsRootPath; set { _reMarsRootPath = value; }
@@ -31,14 +33,14 @@ namespace ReMarsModTool.GlobalData
         public static Dictionary<string, UnitItem> BaseUnitItems { get; set; }
         public static Dictionary<string, UnitDisplayItem> BaseUnitDisplayItems { get; set; }
 
-        public static Dictionary<string, ItemInstance> ProjectItems { get; set; }
-        public static Dictionary<string, SurfaceInstance> ProjectTerrainLayers { get; set; }
-        public static Dictionary<string, LandRes> ProjectLandResItems { get; set; }
-        public static Dictionary<string, ResearchItem> ProjectResearchItems { get; set; }
-        public static Dictionary<string, BuildingItem> ProjectBuildingItems { get; set; }
-        public static Dictionary<string, BuildingDisplayItem> ProjectBuildingDisplayItems { get; set; }
-        public static Dictionary<string, UnitItem> ProjectUnitItems { get; set; }
-        public static Dictionary<string, UnitDisplayItem> ProjectUnitDisplayItems { get; set; }
+        public static Dictionary<string, ItemInstance>? ProjectItems { get; set; }
+        public static Dictionary<string, SurfaceInstance>? ProjectTerrainLayers { get; set; }
+        public static Dictionary<string, LandRes>? ProjectLandResItems { get; set; }
+        public static Dictionary<string, ResearchItem>? ProjectResearchItems { get; set; }
+        public static Dictionary<string, BuildingItem>? ProjectBuildingItems { get; set; }
+        public static Dictionary<string, BuildingDisplayItem>? ProjectBuildingDisplayItems { get; set; }
+        public static Dictionary<string, UnitItem>? ProjectUnitItems { get; set; }
+        public static Dictionary<string, UnitDisplayItem>? ProjectUnitDisplayItems { get; set; }
 
         public static Dictionary<T, TU> GenericInitFromDir<T, TU>(string RootPath, string ContentPath, Dictionary<T, TU>? TargetVariable) where T : notnull
         {
@@ -76,8 +78,6 @@ namespace ReMarsModTool.GlobalData
 
             return TargetVariable;
         }
-        public static List<string> PossibleTranslations { get; set; }
-
         private static string _reMarsRootPath = "";
     }
 }

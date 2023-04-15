@@ -83,12 +83,15 @@
                 <Label Grid.Column="1" Grid.Row="2" Content="{x:Static localization:Resources.TranslationsLabel}" VerticalAlignment="Top" HorizontalAlignment="Right" />
                 <DataGrid x:Name="DataGridTranslations" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Path=Translations}" Margin="5" AutoGenerateColumns="False" SelectionUnit="Cell" CanUserResizeRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static localization:Resources.LanguageColumnHeader}" Binding="{Binding Key}" Width="*"/>
-                        <DataGridTextColumn Header="{x:Static localization:Resources.TranslationColumnHeader}" Binding="{Binding Value}" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static localization:Resources.LanguageColumnHeader}" Binding="{Binding Path=Language, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="{x:Static localization:Resources.TranslationColumnHeader}" Binding="{Binding Path=Trans, Mode=TwoWay}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
-
-                <Button Grid.Row="3" Grid.Column="2" Content="{x:Static localization:Resources.AddUnityAssetsButton}" Width="120" Margin="5 0 5 0"  Height="24" Padding="15,1,15,1" HorizontalAlignment="Left"/>
+                <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <Button Content="{x:Static localization:Resources.AddUnityAssetsButton}" Width="120" Margin="5 0 5 0"  Height="24" Padding="15,1,15,1" HorizontalAlignment="Left"/>
+                    <Button  Content="HighEffBuilding" Width="140" Margin="5 0 5 0"  Height="24" Padding="15,1,15,1" HorizontalAlignment="Left" Click="OnHEBuildingClick"/>
+                </StackPanel>
+                
             </Grid>
         </DockPanel>
     </Grid>

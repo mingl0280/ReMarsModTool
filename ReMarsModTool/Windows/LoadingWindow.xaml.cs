@@ -112,7 +112,7 @@ namespace ReMarsModTool
                            FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 {
                     JsonSerializer serializer = new JsonSerializer();
-                    GlobalItems.ReMarsMetadata = serializer.Deserialize(meta_file, typeof(ReMarsBaseMeta)) as ReMarsBaseMeta;
+                    GlobalItems.ReMarsMetadata = serializer.Deserialize(meta_file, typeof(MetaJsonObject)) as MetaJsonObject;
                 }
             }));
 
