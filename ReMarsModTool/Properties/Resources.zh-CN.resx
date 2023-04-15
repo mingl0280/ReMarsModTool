@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ErrorMsgBoxTitle" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="ErrorTextOpeningRegKey" xml:space="preserve">
+    <value>无法打开注册表读取游戏安装目录！</value>
+  </data>
+  <data name="LoadingSuffixText" xml:space="preserve">
+    <value>中...</value>
+  </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>载入</value>
+  </data>
+  <data name="ModToolTitle" xml:space="preserve">
+    <value>重塑火星非官方MOD工具</value>
+  </data>
+  <data name="ModToolUnofficial" xml:space="preserve">
+    <value>非官方MOD工具</value>
+  </data>
+  <data name="NotifyManualSelectInstallDir" xml:space="preserve">
+    <value>你想要手动选择一个目录吗？</value>
+  </data>
+  <data name="QuestionMsgBoxTitle" xml:space="preserve">
+    <value>询问</value>
+  </data>
+  <data name="ReMarsTitle" xml:space="preserve">
+    <value>重塑火星</value>
+  </data>
+  <data name="SelectReMarsExe" xml:space="preserve">
+    <value>选择ReshapingMars.exe位置</value>
+  </data>
+  <data name="StepInitBuildings" xml:space="preserve">
+    <value>建筑</value>
+  </data>
+  <data name="StepInitItems" xml:space="preserve">
+    <value>物品</value>
+  </data>
+  <data name="StepInitLandRes" xml:space="preserve">
+    <value>地面矿产资源</value>
+  </data>
+  <data name="StepInitLayers" xml:space="preserve">
+    <value>地表层</value>
+  </data>
+  <data name="StepInitReMarsMainMeta" xml:space="preserve">
+    <value>游戏元数据文件</value>
+  </data>
+  <data name="StepInitReMarsPath" xml:space="preserve">
+    <value>游戏目录</value>
+  </data>
+  <data name="StepInitResearch" xml:space="preserve">
+    <value>研究</value>
+  </data>
+  <data name="StepInitUnits" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>另存为</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="ModConfigurations" xml:space="preserve">
+    <value>修改配置</value>
+  </data>
+  <data name="Modding" xml:space="preserve">
+    <value>模组</value>
+  </data>
+  <data name="AddBuilding" xml:space="preserve">
+    <value>添加建筑</value>
+  </data>
+  <data name="AddUnit" xml:space="preserve">
+    <value>添加单位</value>
+  </data>
+  <data name="AddResearch" xml:space="preserve">
+    <value>添加科技</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>添加物品</value>
+  </data>
+  <data name="AddAstroid" xml:space="preserve">
+    <value>添加小行星（未实现）</value>
+  </data>
+  <data name="ModEditorWindowTitle" xml:space="preserve">
+    <value>Mod 编辑器</value>
+  </data>
+  <data name="ModNameLabel" xml:space="preserve">
+    <value>Mod 名称:</value>
+  </data>
+  <data name="PreviewPictureLabel" xml:space="preserve">
+    <value>预览图片:</value>
+  </data>
+  <data name="TranslationsLabel" xml:space="preserve">
+    <value>Mod名称翻译:</value>
+  </data>
+  <data name="LanguageColumnHeader" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="TranslationColumnHeader" xml:space="preserve">
+    <value>翻译</value>
+  </data>
+  <data name="ModFolderLabel" xml:space="preserve">
+    <value>Mod 文件夹:</value>
+  </data>
+  <data name="AddUnityAssetsButton" xml:space="preserve">
+    <value>添加 Unity 资源</value>
+  </data>
+  <data name="BatchProcess" xml:space="preserve">
+    <value>批处理</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>浏览...</value>
+  </data>
+</root>
