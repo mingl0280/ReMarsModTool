@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ReMarsModTool"
         xmlns:localization="clr-namespace:ReMarsModTool.Properties"
         mc:Ignorable="d"
-        Title="{x:Static localization:Resources.ModToolTitle}" Height="600" Width="800">
+        Title="{x:Static localization:Resources.ModToolTitle}" Height="600" Width="1000">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
@@ -33,12 +33,17 @@
                     <MenuItem Header="{x:Static localization:Resources.AddResearch}" Click="OnAddResearchClicked"/>
                     <MenuItem Header="{x:Static localization:Resources.AddItem}" Click="OnAddItemClicked"/>
                     <MenuItem Header="{x:Static localization:Resources.AddAstroid}" Click="OnAddAstroidClicked" IsEnabled="False"/>
+                    <Separator />
+                    <MenuItem Header="{x:Static localization:Resources.CloneBuilding}" Click="OnCloneBuildingClick"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="{x:Static localization:Resources.BatchProcess}">
-                    
+                    <MenuItem Header="{x:Static localization:Resources.BatchCloneBuildingsToMod}" Click="BatchCloneBuildingsToMod_Click"></MenuItem>
+                    <MenuItem Header="{x:Static localization:Resources.BatchModifyBuildings}" Click="BatchModifyBuildings_Click"></MenuItem>
+                    <MenuItem Header="{x:Static localization:Resources.BatchCloneUnits}" Click="BatchCloneUnits_Click"></MenuItem>
+                    <MenuItem Header="{x:Static localization:Resources.BatchModifyUnits}" Click="BatchModifyUnits_Click"></MenuItem>
                 </MenuItem>
             </Menu>
-            <Grid>
+            <Grid Name="MainOperations">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="36"/>
                     <RowDefinition Height="100"/>

@@ -18,9 +18,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Path = System.IO.Path;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using ReMarsModTool.GlobalData;
+using Path = System.IO.Path;
+using ReMarsModTool.DataStructures;
 
 namespace ReMarsModTool
 {
@@ -35,47 +37,69 @@ namespace ReMarsModTool
             DataContext = _notified_items;
             GlobalItems.PossibleTranslations = new List<string>();
             GlobalItems.PossibleTranslations.AddRange(new[] {"English", "ChineseSimplified" });
+            MainOperations.IsEnabled = false;
         }
-
 
         private void OnNewClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "New" is clicked
+            // TODO: Create new folder under user selected location.
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                // Set the selected folder as the working directory
+                Environment.CurrentDirectory = dialog.FileName;
+
+                // Initialize dictionaries to empty
+                GlobalItems.ProjectItems = new Dictionary<string, ItemInstance>();
+                GlobalItems.ProjectTerrainLayers = new Dictionary<string, SurfaceInstance>();
+                GlobalItems.ProjectLandResItems = new Dictionary<string, LandRes>();
+                GlobalItems.ProjectResearchItems = new Dictionary<string, ResearchItem>();
+                GlobalItems.ProjectBuildingItems = new Dictionary<string, BuildingItem>();
+                GlobalItems.ProjectBuildingDisplayItems = new Dictionary<string, BuildingDisplayItem>();
+                GlobalItems.ProjectUnitItems = new Dictionary<string, UnitItem>();
+                GlobalItems.ProjectUnitDisplayItems = new Dictionary<string, UnitDisplayItem>();
+                _notified_items.Translations = new();
+                _notified_items.ModName = "";
+                _notified_items.PreviewPicture = "";
+                MainOperations.IsEnabled = true;
+            }
         }
 
         private void OnOpenClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Open" is clicked
+            // TODO: Load Global Modded Items under Steam workshop location
         }
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Save" is clicked
+            // TODO: Save mod to known location
         }
 
         private void OnSaveAsClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Save As" is clicked
+            // TODO: Save mod to somerwhere else.
         }
 
         private void OnExportClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Export" is clicked
+            // TODO: Save mod to Steam workshop location
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Close" is clicked
+            // TODO: Close project
         }
 
         private void OnModConfigurationsClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Mod Configurations" is clicked
+            // TODO: Not implmented yet.
         }
 
         private void OnAddBuildingClicked(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement logic for when "Add Building" is clicked
+            // TODO: Add a building template.
         }
 
         private void OnAddUnitClicked(object sender, RoutedEventArgs e)
@@ -97,7 +121,44 @@ namespace ReMarsModTool
         {
             // TODO: Implement logic for when "Add Astroid" is clicked
         }
+        private void OnCloneBuildingClick(object sender, RoutedEventArgs e)
+        {
+            // TODO: Implement logic for when "Add Astroid" is clicked
+        }
 
+        // Batch Clone Buildings to Mod
+        private void BatchCloneBuildingsToMod_Click(object sender, EventArgs e)
+        {
+            var warn = MessageBox.Show(Properties.Resources.BatchOpWarning, Properties.Resources.Warning, MessageBoxButton.YesNo);
+            if (warn != MessageBoxResult.Yes)
+            {
+                return;
+            }
+            GlobalItems.ProjectBuildingItems.Clear();
+            GlobalItems.ProjectBuildingDisplayItems.Clear();
+            GlobalItems.ProjectBuildingItems = new Dictionary<string, BuildingItem>(GlobalItems.BaseBuildingItems);
+            GlobalItems.ProjectBuildingDisplayItems =
+                new Dictionary<string, BuildingDisplayItem>(GlobalItems.BaseBuildingDisplayItems);
+
+        }
+
+        // Batch Modify Buildings
+        private void BatchModifyBuildings_Click(object sender, EventArgs e)
+        {
+            // TODO: Implement functionality for Batch Modify Buildings menu item
+        }
+
+        // Batch Clone Units
+        private void BatchCloneUnits_Click(object sender, EventArgs e)
+        {
+            // TODO: Implement functionality for Batch Clone Units menu item
+        }
+
+        // Batch Modify Units
+        private void BatchModifyUnits_Click(object sender, EventArgs e)
+        {
+            // TODO: Implement functionality for Batch Modify Units menu item
+        }
         NotifiedItems _notified_items = new NotifiedItems();
         
         private void BtnBrowsePreviewPic_Click(object sender, RoutedEventArgs e)
@@ -147,6 +208,7 @@ namespace ReMarsModTool
             DataGridTranslations.InvalidateVisual();
             DataGridTranslations.Items.Refresh();
         }
+
     }
 
     public class NotifiedItems : INotifyPropertyChanged, INotifyCollectionChanged

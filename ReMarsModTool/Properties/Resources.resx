@@ -250,10 +250,28 @@
   <data name="AddUnityAssetsButton" xml:space="preserve">
     <value>Add Unity Assets</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>d</value>
-  </data>
   <data name="BatchProcess" xml:space="preserve">
     <value>Batch Process</value>
+  </data>
+  <data name="BatchCloneBuildingsToMod" xml:space="preserve">
+    <value>Batch Clone Buildings to Mod</value>
+  </data>
+  <data name="BatchModifyBuildings" xml:space="preserve">
+    <value>Batch Modify Buildings</value>
+  </data>
+  <data name="BatchCloneUnits" xml:space="preserve">
+    <value>Batch Clone Units</value>
+  </data>
+  <data name="BatchModifyUnits" xml:space="preserve">
+    <value>Batch Modify Units</value>
+  </data>
+  <data name="BatchOpWarning" xml:space="preserve">
+    <value>The batch operation will overwrite all existing items. Continue?</value>
+  </data>
+  <data name="CloneBuilding" xml:space="preserve">
+    <value>Clone current building</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
   </data>
 </root>

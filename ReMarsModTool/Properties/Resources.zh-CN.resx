@@ -246,4 +246,25 @@
   <data name="Browse" xml:space="preserve">
     <value>浏览...</value>
   </data>
+  <data name="BatchCloneBuildingsToMod" xml:space="preserve">
+    <value>批量克隆建筑到 Mod</value>
+  </data>
+  <data name="BatchModifyBuildings" xml:space="preserve">
+    <value>批量修改建筑</value>
+  </data>
+  <data name="BatchCloneUnits" xml:space="preserve">
+    <value>批量克隆单位</value>
+  </data>
+  <data name="BatchModifyUnits" xml:space="preserve">
+    <value>批量修改单位</value>
+  </data>
+  <data name="BatchOpWarning" xml:space="preserve">
+    <value>批量操作将覆盖所有现有项目。是否继续？</value>
+  </data>
+  <data name="CloneBuilding" xml:space="preserve">
+    <value>复制当前建筑</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
 </root>

@@ -125,6 +125,51 @@ namespace ReMarsModTool.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Batch Clone Buildings to Mod 的本地化字符串。
+        /// </summary>
+        public static string BatchCloneBuildingsToMod {
+            get {
+                return ResourceManager.GetString("BatchCloneBuildingsToMod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Batch Clone Units 的本地化字符串。
+        /// </summary>
+        public static string BatchCloneUnits {
+            get {
+                return ResourceManager.GetString("BatchCloneUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Batch Modify Buildings 的本地化字符串。
+        /// </summary>
+        public static string BatchModifyBuildings {
+            get {
+                return ResourceManager.GetString("BatchModifyBuildings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Batch Modify Units 的本地化字符串。
+        /// </summary>
+        public static string BatchModifyUnits {
+            get {
+                return ResourceManager.GetString("BatchModifyUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The batch operation will overwrite all existing items. Continue? 的本地化字符串。
+        /// </summary>
+        public static string BatchOpWarning {
+            get {
+                return ResourceManager.GetString("BatchOpWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Batch Process 的本地化字符串。
         /// </summary>
         public static string BatchProcess {
@@ -149,6 +194,15 @@ namespace ReMarsModTool.Properties {
         public static string Browse {
             get {
                 return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clone current building 的本地化字符串。
+        /// </summary>
+        public static string CloneBuilding {
+            get {
+                return ResourceManager.GetString("CloneBuilding", resourceCulture);
             }
         }
         
@@ -450,15 +504,6 @@ namespace ReMarsModTool.Properties {
         }
         
         /// <summary>
-        ///   查找类似 d 的本地化字符串。
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Translation 的本地化字符串。
         /// </summary>
         public static string TranslationColumnHeader {
@@ -473,6 +518,15 @@ namespace ReMarsModTool.Properties {
         public static string TranslationsLabel {
             get {
                 return ResourceManager.GetString("TranslationsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Warning 的本地化字符串。
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }
