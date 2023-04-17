@@ -2,6 +2,6 @@
 
 public class ElecConsume
 {
-    public int Power { get; set; }
-    public int MinPower { get; set; }
+    public int? Power { get; set; }
+    public int? MinPower { get; set; }
 }

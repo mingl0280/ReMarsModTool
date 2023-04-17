@@ -2,5 +2,5 @@
 
 public class Construct
 {
-    public int WorkloadRate { get; set; }
+    public int? WorkloadRate { get; set; }
 }

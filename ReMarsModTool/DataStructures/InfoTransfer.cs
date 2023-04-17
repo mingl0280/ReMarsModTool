@@ -2,5 +2,5 @@
 
 public class InfoTransfer
 {
-    public int Workrate { get; set; }
+    public int? Workrate { get; set; }
 }

@@ -2,6 +2,6 @@
 
 public class Durability
 {
-    public int Value { get; set; }
-    public int DeltaDaily { get; set; }
+    public int? Value { get; set; }
+    public int? DeltaDaily { get; set; }
 }

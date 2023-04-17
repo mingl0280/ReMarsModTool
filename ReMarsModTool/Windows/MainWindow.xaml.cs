@@ -76,16 +76,18 @@ namespace ReMarsModTool
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)
         {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.Formatting = Formatting.Indented;
             string title_json_content = "{\r\n    ";
             List<string> title_items = new List<string>();
             foreach (DataRow translation in _notified_items.Translations.Rows)
             {
-                //title_json_content += $"\"{translation.Key}\":\"{translation.Value}\"";
                 title_items.Add($"\"{translation[0]}\":\"{translation[1]}\"");
             }
 
             title_json_content += string.Join(",\r\n    ", title_items);
-            title_json_content += "}";
+            title_json_content += "\r\n}";
             using StreamWriter title_json_writer = new StreamWriter(new FileStream(GlobalItems.ProjectDir + @"\title.json", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite));
             title_json_writer.WriteLine(title_json_content);
             title_json_writer.Flush();
@@ -108,9 +110,8 @@ namespace ReMarsModTool
             if (meta.Packages == null)
                 meta.Packages = new List<string>();
             meta.Packages.Add(_notified_items.ModID);
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Formatting.Indented; 
-            serializer.Serialize(meta_strm_writer, meta);
+
+            meta_strm_writer.WriteLine(JsonConvert.SerializeObject(meta, settings));
             meta_strm_writer.Flush();
             meta_strm_writer.Close();
             if (!Directory.Exists(GlobalItems.ModRootPath))
@@ -118,11 +119,16 @@ namespace ReMarsModTool
                 Directory.CreateDirectory(GlobalItems.ModRootPath);
             }
 
-            MetaJsonObject mod_meta = new MetaJsonObject();
+            MetaJsonObject mod_meta = new MetaJsonObject(); 
+            if (mod_meta.Contents == null)
+                mod_meta.Contents = new Dictionary<string, string>();
+            //if (mod_meta.ContentsCSV == null)
+                //mod_meta.ContentsCSV = new Dictionary<string, string>();
             if (GlobalItems.ProjectBuildingItems != null)
             {
                 if (GlobalItems.ProjectBuildingItems.Count > 0)
                 {
+                    
                     mod_meta.Contents.Add("BuildingDB_ReMars", "building");
                 }
             }
@@ -190,7 +196,8 @@ namespace ReMarsModTool
 
             using StreamWriter mod_meta_writer = new StreamWriter(new FileStream(
                 GlobalItems.ModRootPath + @"\meta.json", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite));
-            serializer.Serialize(mod_meta_writer, mod_meta);
+            
+            mod_meta_writer.WriteLine(JsonConvert.SerializeObject(mod_meta, settings));
             mod_meta_writer.Flush();
             mod_meta_writer.Close();
 
@@ -214,7 +221,14 @@ namespace ReMarsModTool
 
             foreach (var mapping in mappings)
             {
-                string serialized_data = JsonConvert.SerializeObject(mapping.Value.Data, Formatting.Indented);
+                if ((int)(mapping.Value.Data.GetType().GetProperty("Count", typeof(int))!.GetValue(mapping.Value.Data))! <= 0)
+                    continue;
+
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                settings.Formatting = Formatting.Indented;
+                
+                string serialized_data = JsonConvert.SerializeObject(mapping.Value.Data, Formatting.Indented, settings);
                 string output_path = mapping.Value.Path;
 
                 // Check if the path has a file name
@@ -226,8 +240,14 @@ namespace ReMarsModTool
                 else
                 {
                     // If no file name is given, use the folder name as the file name
-                    output_path = Path.Combine(output_path, $"{mapping.Key}.json");
+                    output_path = Path.Combine(GlobalItems.ModRootPath +"\\" + output_path, $"{mapping.Key}.json");
                 }
+
+                var output_file = new FileInfo(output_path);
+
+
+                if (!Directory.Exists(output_file.DirectoryName))
+                    Directory.CreateDirectory(output_file.DirectoryName);
 
                 File.WriteAllText(output_path, serialized_data);
 

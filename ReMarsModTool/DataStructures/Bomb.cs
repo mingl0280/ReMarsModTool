@@ -2,5 +2,5 @@
 
 public class Bomb
 {
-    public int TNTEquivalent { get; set; }
+    public int? TNTEquivalent { get; set; }
 }

@@ -2,5 +2,5 @@
 
 public class Energy
 {
-    public int DeltaPerHour { get; set; }
+    public int? DeltaPerHour { get; set; }
 }

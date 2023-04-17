@@ -2,6 +2,6 @@
 
 public class ElecStorage
 {
-    public int StorageEnergy { get; set; }
-    public int Power { get; set; }
+    public int? StorageEnergy { get; set; }
+    public int? Power { get; set; }
 }

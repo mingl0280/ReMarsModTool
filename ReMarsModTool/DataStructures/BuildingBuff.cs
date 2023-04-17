@@ -2,5 +2,5 @@
 
 public class BuildingBuff
 {
-    public double WorkloadCoef { get; set; }
+    public double? WorkloadCoef { get; set; }
 }

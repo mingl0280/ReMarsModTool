@@ -2,6 +2,6 @@
 
 public class ElecGenerate
 {
-    public string Type { get; set; }
-    public int Power { get; set; }
+    public string? Type { get; set; }
+    public int? Power { get; set; }
 }

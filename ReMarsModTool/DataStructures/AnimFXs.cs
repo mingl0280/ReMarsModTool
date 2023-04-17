@@ -2,5 +2,5 @@
 
 public class AnimFXs
 {
-    public Effects Effects { get; set; }
+    public Effects? Effects { get; set; }
 }

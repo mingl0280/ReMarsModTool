@@ -2,5 +2,5 @@
 
 public class HumanityGen
 {
-    public double PopCoef { get; set; }
+    public double? PopCoef { get; set; }
 }
